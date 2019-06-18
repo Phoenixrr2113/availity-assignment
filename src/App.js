@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import './App.css';
+import { Switch, Route } from 'react-router-dom';
+
+import StringValidator from './components/stringValidator/StringValidator';
+
 import RegistrationForm from './components/registration/RegistrationForm';
+import Welcome from './components/Welcome';
+import CsvReader from './components/csvReader/CsvReader';
 
 class App extends Component {
 	state = {
 		user: {
-			emailAddress: '',
-			password: '',
+			email: '',
+			phone: '',
+			name: '',
+			busAddr: '',
+			npiNum: '',
 		},
 		submitted: false,
 	};
@@ -18,10 +27,6 @@ class App extends Component {
 				[event.target.name]: event.target.value,
 			},
 		});
-	};
-
-	handleGoogleLogin = () => {
-		this.props.googleLogin();
 	};
 
 	handleEmailLogin = event => {
@@ -45,20 +50,29 @@ class App extends Component {
 
 	render() {
 		return (
-			<div>
-				<RegistrationForm
-					password={this.state.user.password}
-					email={this.state.user.emailAddress}
-					user={this.state.user}
-					submitted={this.state.submitted}
-					handleInputChange={this.handleChanges}
-					handleRegister={this.props.handleRegister}
-					isRegistering={this.props.isRegistering}
-					handleGoogleLogin={this.handleGoogleLogin}
-					handleEmailLogin={this.handleEmailLogin}
-					error={this.props.errMessage}
+			<Switch>
+				<Route
+					exact
+					path='/registration'
+					render={props => (
+						<RegistrationForm
+							{...props}
+							user={this.state.user}
+							submitted={this.state.submitted}
+							handleInputChange={this.handleChanges}
+							handleRegister={this.props.handleRegister}
+							isRegistering={this.props.isRegistering}
+							handleGoogleLogin={this.handleGoogleLogin}
+							handleEmailLogin={this.handleEmailLogin}
+							error={this.props.errMessage}
+						/>
+					)}
 				/>
-			</div>
+
+				<Route exact path='/validator' component={StringValidator} />
+				<Route exact path='/csvreader' component={CsvReader} />
+				<Route exact path='/' component={Welcome} />
+			</Switch>
 		);
 	}
 }

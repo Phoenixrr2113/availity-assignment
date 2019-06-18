@@ -7,6 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import { Link } from 'react-router-dom';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 const styles = theme => ({
@@ -16,7 +17,7 @@ const styles = theme => ({
 		marginLeft: theme.spacing(3),
 		marginRight: theme.spacing(3),
 		[theme.breakpoints.up(400 + theme.spacing(3 * 2))]: {
-			width: 600,
+			width: 500,
 			marginLeft: 'auto',
 			marginRight: 'auto',
 		},
@@ -66,6 +67,7 @@ class RegistrationForm extends Component {
 
 		return (
 			<div>
+				<Link to='/'>Back</Link>
 				<main className={classes.main}>
 					<CssBaseline />
 					<Paper className={classes.paper}>
@@ -80,51 +82,43 @@ class RegistrationForm extends Component {
 							className={classes.form}
 							ref='form'
 							onSubmit={this.props.handleEmailLogin}>
-							<div className={classes.name}>
-								<FormControl margin='normal' required>
-									<TextValidator
-										label='First Name'
-										onChange={this.props.handleInputChange}
-										name='firstName'
-										value={this.props.firstName}
-										validators={['required', 'isFirst']}
-										errorMessages={['this field is required']}
-									/>
-								</FormControl>
-								<FormControl margin='normal' required>
-									<TextValidator
-										label='Last Name'
-										onChange={this.props.handleInputChange}
-										name='lastName'
-										value={this.props.lastName}
-										validators={['required', 'isLast']}
-										errorMessages={['this field is required']}
-									/>
-								</FormControl>
-							</div>
+							<FormControl margin='normal' fullWidth required>
+								<TextValidator
+									label='Name'
+									onChange={this.props.handleInputChange}
+									name='name'
+									value={this.props.name}
+									validators={['required']}
+									errorMessages={['this field is required']}
+								/>
+							</FormControl>
+
 							<FormControl margin='normal' required fullWidth>
 								<TextValidator
-									label='NPI Number'
+									label='Address'
+									type='text'
 									onChange={this.props.handleInputChange}
-									name='npiNumber'
-									value={this.props.npiNumber}
-									validators={['required', 'isNpi']}
-									errorMessages={['this field is required', 'NPI is not valid']}
+									name='busAddress'
+									value={this.props.email}
+									validators={['required']}
+									errorMessages={['this field is required']}
 								/>
 							</FormControl>
 							<div className={classes.name}>
-								<FormControl margin='normal' required>
+								<FormControl margin='normal' required fullWidth>
 									<TextValidator
-										label='Address'
-										type='text'
+										label='Email'
 										onChange={this.props.handleInputChange}
-										name='busAddress'
+										name='emailAddress'
 										value={this.props.email}
-										validators={['required']}
-										errorMessages={['this field is required']}
+										validators={['required', 'isEmail']}
+										errorMessages={[
+											'this field is required',
+											'email is not valid',
+										]}
 									/>
 								</FormControl>
-								<FormControl margin='normal' required>
+								<FormControl margin='normal' required fullWidth>
 									<TextValidator
 										label='Phone'
 										onChange={this.props.handleInputChange}
@@ -135,20 +129,17 @@ class RegistrationForm extends Component {
 									/>
 								</FormControl>
 							</div>
-							<FormControl margin='normal' required fullWidth>
+
+							<FormControl margin='normal' required>
 								<TextValidator
-									label='Email'
+									label='NPI Number'
 									onChange={this.props.handleInputChange}
-									name='emailAddress'
-									value={this.props.email}
-									validators={['required', 'isEmail']}
-									errorMessages={[
-										'this field is required',
-										'email is not valid',
-									]}
+									name='npiNumber'
+									value={this.props.npiNumber}
+									validators={['required', 'isNpi']}
+									errorMessages={['this field is required', 'NPI is not valid']}
 								/>
 							</FormControl>
-
 							<br />
 							<Button
 								disabled={this.props.submitted}
@@ -157,7 +148,7 @@ class RegistrationForm extends Component {
 								variant='contained'
 								className={classes.submit}>
 								{(this.props.submitted && 'Your form is submitted!') ||
-									(!this.props.submitted && 'Sign in')}
+									(!this.props.submitted && 'Register')}
 							</Button>
 						</ValidatorForm>
 					</Paper>
