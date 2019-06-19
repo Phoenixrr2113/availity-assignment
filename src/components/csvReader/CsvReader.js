@@ -7,6 +7,7 @@ import uuid from 'uuid';
 class CsvReader extends Component {
 	state = {
 		data: '',
+		filtered: '',
 	};
 	// handleForce = data => {
 	// 	let head = data.slice(0, 1);
@@ -83,30 +84,38 @@ class CsvReader extends Component {
 		}
 
 		let setup = [];
-		// for (let i = 0; i <= collection.length - 1; i++) {
-		// 	for (let j = 1; j <= collection.length; j++) {
-		// 		if (collection[i] === collection[j]) setup.push(collection[i]);
-		// 	}
-		// }
+		let filtered = [];
 		for (let i = 0; i < collection.length; i++) {
-			let next = collection[i]
-				? collection[1].Insurance_Company
-				: collection[i + 1].Insurance_Company;
-			let current = collection[i].Insurance_Company;
-			if (current === next) {
-				setup.push(collection[i]);
+			let setupCheck = collection[i] ? collection[i] : collection[0];
+			let next = collection[i] ? collection[1] : collection[i + 1];
+			let current = collection[i];
+			if (current.Insurance_Company === next.Insurance_Company) {
+				setup.push(current);
 				current = next;
 			} else {
 				next = current;
 			}
+			if (
+				current.Insurance_Company === next.Insurance_Company &&
+				setupCheck.UserID !== next.UserID
+			) {
+				filtered.push(current);
+				current = next;
+			}
 		}
 
 		console.log(setup);
-		// setup.splice(0, -1);
-		// console.log(setup.slice(-1, 1));
-
+		setup.sort(
+			(a, b) =>
+				a.Name.split('')
+					.join(' ')
+					.toLocaleLowerCase() <
+				b.Name.split('')
+					.join(' ')
+					.toLocaleLowerCase(),
+		);
 		this.setState({
-			data: collection,
+			data: setup,
 		});
 		return data;
 	};
@@ -129,9 +138,9 @@ class CsvReader extends Component {
 					inputId='ObiWan'
 					inputStyle={{ color: 'red' }}
 				/>
-				{/* {this.state.data.length === 0 && (
+				{this.state.data.length === 0 && (
 					<CSVLink data={csvData}>Download me</CSVLink>
-				)} */}
+				)}
 				<Link to='/'>Back</Link>
 				<div>
 					{this.state.data &&
