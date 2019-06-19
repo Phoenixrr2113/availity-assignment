@@ -29,15 +29,18 @@ class App extends Component {
 		});
 	};
 
-	handleEmailLogin = event => {
+	handleRegister = event => {
 		event.preventDefault();
-		this.props.emailLogin(this.state.user);
+		this.props.Register(this.state.user);
 		if (!!this.props.errMessage) {
 			this.setState(
 				{
 					user: {
-						emailAddress: '',
-						password: '',
+						email: '',
+						phone: '',
+						name: '',
+						busAddr: '',
+						npiNum: '',
 					},
 					submitted: true,
 				},
@@ -50,29 +53,28 @@ class App extends Component {
 
 	render() {
 		return (
-			<Switch>
-				<Route
-					exact
-					path='/registration'
-					render={props => (
-						<RegistrationForm
-							{...props}
-							user={this.state.user}
-							submitted={this.state.submitted}
-							handleInputChange={this.handleChanges}
-							handleRegister={this.props.handleRegister}
-							isRegistering={this.props.isRegistering}
-							handleGoogleLogin={this.handleGoogleLogin}
-							handleEmailLogin={this.handleEmailLogin}
-							error={this.props.errMessage}
-						/>
-					)}
-				/>
+			<div>
+				<Welcome />
+				<Switch>
+					<Route
+						exact
+						path='/registration'
+						render={props => (
+							<RegistrationForm
+								{...props}
+								user={this.state.user}
+								submitted={this.state.submitted}
+								handleInputChange={this.handleChanges}
+								handleRegister={this.handleRegister}
+								error={this.props.errMessage}
+							/>
+						)}
+					/>
 
-				<Route exact path='/validator' component={StringValidator} />
-				<Route exact path='/csvreader' component={CsvReader} />
-				<Route exact path='/' component={Welcome} />
-			</Switch>
+					<Route exact path='/validator' component={StringValidator} />
+					<Route exact path='/csvreader' component={CsvReader} />
+				</Switch>
+			</div>
 		);
 	}
 }
