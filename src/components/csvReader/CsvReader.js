@@ -9,22 +9,6 @@ class CsvReader extends Component {
 		data: '',
 		filtered: '',
 	};
-	// handleForce = data => {
-	// 	let head = data.slice(0, 1);
-	// 	let newData = data.slice(1, -1);
-	// 	let newHead = Object.assign({}, ...head);
-	// 	let names = newData.map((el, i) => {
-	// 		newHead['UserID'] = el[0];
-	// 		newHead['Name'] = el[1];
-	// 		newHead['Version'] = el[2];
-	// 		newHead['Insurance_Company'] = el[3];
-	// 	});
-
-	// 	console.log('newObj', names);
-	// 	this.setState({
-	// 		data,
-	// 	});
-	// };
 
 	CSVToArray = (strData, strDelimiter) => {
 		strDelimiter = strDelimiter || ',';
@@ -151,7 +135,6 @@ class CsvReader extends Component {
 							</div>
 						))}
 				</div>
-				{/* <div onDragOver={this.CSVToArray}>Drop here</div> */}
 			</div>
 		);
 	}

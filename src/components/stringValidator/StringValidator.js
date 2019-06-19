@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 class StringValidator extends Component {
 	state = {
 		input: '',
+		error: '',
 	};
 
 	checkStr = (e, str) => {
@@ -20,15 +21,25 @@ class StringValidator extends Component {
 			}
 		}
 		if (open === 0 && close == 0) {
-			console.log('You havent entered a parentheses');
+			this.setState({
+				error: 'You havent entered a parentheses',
+			});
 		} else if (open === close) {
-			console.log('All parentheses matches.');
+			this.setState({
+				error: 'All parentheses matches.',
+			});
+
 			return true;
 		} else if (open !== close) {
-			console.log('Parentheses does not matches.');
+			this.setState({
+				error: 'Parentheses does not matches.',
+			});
+
 			return true;
 		} else {
-			console.log('No parentheses detected');
+			this.setState({
+				error: 'No parentheses detected',
+			});
 			return false;
 		}
 	};
@@ -41,8 +52,10 @@ class StringValidator extends Component {
 	};
 	render() {
 		return (
-			<div>
-				<form onSubmit={e => this.checkStr(e, this.state.input)}>
+			<div style={{ margin: '20%' }}>
+				<form
+					style={{ width: '60%' }}
+					onSubmit={e => this.checkStr(e, this.state.input)}>
 					<input
 						type='text'
 						name='input'
@@ -52,6 +65,7 @@ class StringValidator extends Component {
 					/>
 					<button type='submit'>Click or Press enter</button>
 				</form>
+				<h3 style={{ color: 'red' }}>{this.state.error}</h3>
 				<Link to='/'>Back</Link>
 			</div>
 		);
