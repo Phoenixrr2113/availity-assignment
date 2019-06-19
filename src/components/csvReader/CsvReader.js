@@ -83,18 +83,24 @@ class CsvReader extends Component {
 		}
 
 		let setup = [];
-		for (let i = 0; i <= collection.length - 1; i++) {
-			for (let j = 0; j <= collection.length; j++) {
-				if (
-					collection[i].Name !== undefined &&
-					collection[j].Name !== undefined
-				) {
-					return;
-				}
-				if (collection[i].Name === collection[j].Name)
-					setup.push(collection[i]);
+		// for (let i = 0; i <= collection.length - 1; i++) {
+		// 	for (let j = 1; j <= collection.length; j++) {
+		// 		if (collection[i] === collection[j]) setup.push(collection[i]);
+		// 	}
+		// }
+		for (let i = 0; i < collection.length; i++) {
+			let next = collection[i]
+				? collection[1].Insurance_Company
+				: collection[i + 1].Insurance_Company;
+			let current = collection[i].Insurance_Company;
+			if (current === next) {
+				setup.push(collection[i]);
+				current = next;
+			} else {
+				next = current;
 			}
 		}
+
 		console.log(setup);
 		// setup.splice(0, -1);
 		// console.log(setup.slice(-1, 1));
